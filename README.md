@@ -9,12 +9,12 @@ react carousel component
 Download or clone repository and run:
 
 ```bash
-npm i
+npm install
 ```
 
 ## Usage
 
-HTML elements should be passed as <Carosuel> component's children;
+HTML elements should be passed as 'Carousel' component's children;
 Use 'cssStyles' property to style component.
 
 ```jsx
@@ -49,7 +49,9 @@ run application:
 npm start
 ```
 
-build:
+## Production
+
+build application:
 
 ```bash
 npm run build

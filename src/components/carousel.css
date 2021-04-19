@@ -1,0 +1,120 @@
+.mg-car-slide-wrapper {
+  overflow: hidden;
+  position: relative;
+}
+.mg-car-slides {
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+.mg-car-slide {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+.mg-car-transition {
+  transition: transform 0.3s;
+}
+
+.mg-car-active {
+  visibility: visible;
+}
+
+.mg-car-next {
+  transform: translateX(100%);
+
+  visibility: hidden;
+}
+
+.mg-car-active + .mg-car-next {
+  transform: translateX(100%);
+
+  visibility: visible;
+}
+
+.mg-car-slide:first-child.mg-car-next.mg-car-first-next {
+  transform: translateX(100%);
+  visibility: visible;
+}
+
+.mg-car-last {
+  transform: translateX(-100%);
+
+  visibility: visible;
+}
+
+.mg-car-last.mg-car-transition.mg-car-left-side {
+  visibility: hidden;
+  transition: transform 0.3s;
+}
+.mg-car-next.mg-car-transition.mg-car-left-side,
+.mg-car-last.mg-car-transition.mg-car-right-side,
+.mg-car-slide:first-child.mg-car-next.mg-car-first-next.mg-car-transition.mg-car-left-side,
+.mg-car-active + .mg-car-next.mg-car-transition.mg-car-left-side {
+  visibility: hidden;
+  transition: transform 0.3s, visibility 0.3s;
+}
+.mg-car-slide:first-child.mg-car-next.mg-car-first-next.mg-car-transition.mg-car-right-side,
+.mg-car-active + .mg-car-next.mg-car-transition.mg-car-right-side {
+  visibility: hidden;
+}
+.mg-car-btn {
+  position: absolute;
+  margin: 0 2px;
+  z-index: 10;
+  top: 50%;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.4);
+  color: rgba(0, 0, 0, 0.4);
+
+  font-size: 30px;
+  cursor: pointer;
+  outline: none;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.2s;
+}
+.mg-car-btn:hover {
+  background-color: rgba(255, 255, 255, 0.6);
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.mg-car-btn-left {
+  left: 0;
+}
+.mg-car-btn-right {
+  right: 0;
+}
+
+.mg-car-scroll-menu {
+  position: absolute;
+  z-index: 10;
+  display: flex;
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.mg-car-scroll-item {
+  background-color: rgba(0, 0, 0, 0.5);
+
+  margin: 2px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  opacity: 0.5;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.mg-car-active-item,
+.mg-car-scroll-item:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}

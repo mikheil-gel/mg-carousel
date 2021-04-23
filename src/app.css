@@ -4,6 +4,7 @@ body {
 .slide-item {
   display: flex;
   height: 100%;
+  font-family: Verdana, sans-serif;
 }
 .slide-item h1 {
   margin: auto;

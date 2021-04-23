@@ -17,17 +17,15 @@ function App() {
   ];
 
   return (
-    <div className='good'>
-      <Carousel cssStyles={cssStyles}>
-        {slideData.map((sl, id) => {
-          return (
-            <div className={`slide-item ${sl.className}`} key={id}>
-              <h1>{sl.headingText}</h1>
-            </div>
-          );
-        })}
-      </Carousel>
-    </div>
+    <Carousel cssStyles={cssStyles}>
+      {slideData.map((sl, id) => {
+        return (
+          <div className={`slide-item ${sl.className}`} key={id}>
+            <h1>{sl.headingText}</h1>
+          </div>
+        );
+      })}
+    </Carousel>
   );
 }
 

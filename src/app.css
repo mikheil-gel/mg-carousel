@@ -1,0 +1,25 @@
+body {
+  background-color: #c0c0c0;
+}
+.slide-item {
+  display: flex;
+  height: 100%;
+}
+.slide-item h1 {
+  margin: auto;
+}
+.item-1 {
+  background-color: #2196f3;
+}
+.item-2 {
+  background-color: #4caf50;
+}
+.item-3 {
+  background-color: #607d8b;
+}
+.item-4 {
+  background-color: #ff9800;
+}
+.item-5 {
+  background-color: #9c27b0;
+}

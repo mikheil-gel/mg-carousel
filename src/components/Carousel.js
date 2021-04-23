@@ -5,6 +5,20 @@ class Carousel extends React.Component {
   constructor(props) {
     super(props);
     this.parentDiv = React.createRef();
+
+    this.state = {
+      slides: this.getPropsChildren(),
+      change: true,
+      trSlide: 'mg-car-transition',
+      trDirection: '',
+      trX: 0,
+      start: 0,
+      clX: 0,
+      dif: 0,
+      move: this.prevent,
+      leave: this.prevent,
+      end: this.prevent,
+    };
   }
 
   prevent = (e) => {
@@ -17,9 +31,9 @@ class Carousel extends React.Component {
   }
 
   getPropsChildren = () => {
-    if (this.props.children.length) {
+    if (this.props.children && this.props.children.length) {
+      let len = this.props.children.length - 1;
       let list = this.props.children.map((slide, id) => {
-        let len = this.props.children.length - 1;
         if (len === 1) {
           if (id === 0) {
             return { slide: slide, slidePosition: 'active' };
@@ -44,30 +58,16 @@ class Carousel extends React.Component {
     }
   };
 
-  state = {
-    slides: this.getPropsChildren(),
-    change: true,
-    trSlide: 'mg-car-transition',
-    trDirection: '',
-    trX: 0,
-    start: 0,
-    clX: 0,
-    dif: 0,
-    move: this.prevent,
-    leave: this.prevent,
-    end: this.prevent,
-  };
-
-  changeSlideOption = () => {
+  changeSlideOption = (time) => {
     setTimeout(() => {
-      this.setState({
+      this.setState(() => ({
         trSlide: 'mg-car-transition',
         change: true,
-      });
-    }, 300);
+      }));
+    }, time);
   };
 
-  changeSlide = (side) => {
+  changeSlide = (side, time) => {
     if (this.state.change) {
       let len = this.state.slides.length - 1;
       if (len === 1) {
@@ -83,15 +83,15 @@ class Carousel extends React.Component {
           }
         });
 
-        this.setState({
+        this.setState(() => ({
           slides: newSlides,
           change: false,
-        });
+        }));
       } else {
         let trDir = side === 'left' ? 'mg-car-left-side' : 'mg-car-right-side';
-        this.setState({
+        this.setState(() => ({
           trDirection: trDir,
-        });
+        }));
         let [optionOne, optionTwo] = side === 'left' ? ['last', 'active'] : ['active', 'last'];
 
         let newId;
@@ -121,12 +121,12 @@ class Carousel extends React.Component {
             }
           });
 
-        this.setState({
+        this.setState(() => ({
           slides: newSlides,
           change: false,
-        });
+        }));
       }
-      this.changeSlideOption();
+      this.changeSlideOption(time);
     }
   };
 
@@ -145,9 +145,9 @@ class Carousel extends React.Component {
         });
 
         if (oldId === nextId) {
-          this.changeSlide('left');
+          this.changeSlide('left', 300);
         } else if (oldId === lastId) {
-          this.changeSlide('right');
+          this.changeSlide('right', 300);
         } else {
           if (oldId > id) {
             let newSlides = this.state.slides.map((it, itId) => {
@@ -160,10 +160,10 @@ class Carousel extends React.Component {
               }
             });
 
-            this.setState({
+            this.setState(() => ({
               slides: newSlides,
               trSlide: '',
-            });
+            }));
             setTimeout(() => {
               newSlides = newSlides.map((it, itId) => {
                 if (itId === id) {
@@ -174,11 +174,11 @@ class Carousel extends React.Component {
                   return it;
                 }
               });
-              this.setState({
+              this.setState(() => ({
                 trSlide: 'mg-car-transition',
                 trDirection: 'mg-car-left-side',
                 slides: newSlides,
-              });
+              }));
             }, 1);
           } else {
             let newSlides = this.state.slides.map((it, itId) => {
@@ -191,11 +191,11 @@ class Carousel extends React.Component {
               }
             });
 
-            this.setState({
+            this.setState(() => ({
               slides: newSlides,
               trSlide: 'mg-car-transition',
               trDirection: 'mg-car-right-side',
-            });
+            }));
 
             setTimeout(() => {
               newSlides = newSlides.map((it, itId) => {
@@ -207,99 +207,103 @@ class Carousel extends React.Component {
                   return { slide: it.slide, slidePosition: 'next' };
                 }
               });
-              this.setState({
+              this.setState(() => ({
                 trSlide: '',
                 slides: newSlides,
-              });
+              }));
               setTimeout(() => {
-                this.setState({
+                this.setState(() => ({
                   trSlide: 'mg-car-transition',
-                });
+                }));
               }, 1);
             }, 300);
           }
+          this.changeSlideOption(300);
         }
-        this.changeSlideOption();
       }
     }
   };
 
   swipeStart = (e) => {
-    this.setState({
+    this.setState(() => ({
       start: e.clientX || e.changedTouches[0].clientX,
       clX: e.clientX || e.changedTouches[0].clientX,
       move: this.swipeMove,
       leave: this.swipeEnd,
       end: this.swipeEnd,
-
       trSlide: '',
-    });
+    }));
+
     this.preventMouse(e);
   };
 
   swipeMove = (e) => {
-    this.setState({
+    this.setState(() => ({
       clX: e.clientX || e.changedTouches[0].clientX,
-    });
+    }));
     let offWidth = this.parentDiv.current.offsetWidth;
     if (this.state.clX > this.state.start) {
       let inDif = this.state.clX - this.state.start;
 
       if (inDif >= offWidth) {
-        this.setState({
+        this.setState(() => ({
           trX: 0,
           dif: inDif,
-        });
+        }));
         this.swipeEnd(e);
       } else {
-        this.setState({
+        this.setState(() => ({
           dif: inDif,
           trX: inDif,
-        });
+        }));
       }
     } else if (this.state.clX < this.state.start) {
       let inDif = this.state.start - this.state.clX;
       if (inDif >= offWidth) {
-        this.setState({
+        this.setState(() => ({
           trX: 0,
           dif: inDif,
-        });
+        }));
         this.swipeEnd(e);
       } else {
-        this.setState({
+        this.setState(() => ({
           dif: inDif,
           trX: -inDif,
-        });
+        }));
       }
     }
   };
 
   swipeEnd = (e) => {
-    this.setState({
+    this.setState(() => ({
       move: this.preventMouse,
       leave: this.prevent,
-
       trSlide: 'mg-car-transition',
       trDirection: '',
+    }));
+    let offWidth = this.parentDiv.current.offsetWidth;
+    if (this.state.clX > this.state.start && this.state.dif >= offWidth * 0.075) {
+      this.changeSlide('left', 1);
+    } else if (this.state.clX < this.state.start && this.state.dif >= offWidth * 0.075) {
+      this.changeSlide('right', 1);
+    }
+    this.setState(() => ({
       trX: 0,
       start: 0,
       clX: 0,
       dif: 0,
-    });
-    let offWidth = this.parentDiv.current.offsetWidth;
-    if (this.state.clX > this.state.start && this.state.dif >= offWidth * 0.075) {
-      this.changeSlide('left');
-    } else if (this.state.clX < this.state.start && this.state.dif >= offWidth * 0.075) {
-      this.changeSlide('right');
-    }
+    }));
   };
 
   render() {
-    let firstNext = '';
-
-    if (!this.state.slides) {
-      return <h1>Carousel must Contain at least 2 elements</h1>;
+    if (!this.state.slides || this.state.slides.length === 0) {
+      return (
+        <div className='mg-car-slide-wrapper' ref={this.parentDiv} style={this.props.cssStyles}>
+          <h1>Carousel must Contain at least 2 elements</h1>
+        </div>
+      );
     } else {
+      let firstNext = '';
       if (this.state.slides[this.state.slides.length - 1].slidePosition === 'active') {
         firstNext = 'mg-car-first-next';
       }
@@ -343,7 +347,7 @@ class Carousel extends React.Component {
 
           <div
             onClick={() => {
-              this.changeSlide('left');
+              this.changeSlide('left', 300);
             }}
             className='mg-car-btn mg-car-btn-left'
           >
@@ -352,7 +356,7 @@ class Carousel extends React.Component {
 
           <div
             onClick={() => {
-              this.changeSlide('right');
+              this.changeSlide('right', 300);
             }}
             className='mg-car-btn mg-car-btn-right'
           >

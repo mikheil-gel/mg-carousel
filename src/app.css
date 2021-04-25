@@ -7,7 +7,8 @@ body {
   font-family: Verdana, sans-serif;
 }
 .slide-item h1 {
-  margin: auto;
+  margin: 3rem auto;
+  font-size: 5rem;
 }
 .item-1 {
   background-color: #2196f3;
